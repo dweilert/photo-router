@@ -1,0 +1,40 @@
+# ---------------------------------------------------------------------------
+# photo-router configuration
+# ---------------------------------------------------------------------------
+
+# Directories containing your current photos (immich external library paths).
+# Multiple source directories are supported.
+source_dirs:
+  - /photos
+
+# Destination for RAW files extracted from source directories.
+# Directory structure from source is mirrored here.
+raw_archive: /raw-archive
+
+# Holding area for orphan RAW files that have no matching JPEG.
+# Piece 2 will process these to generate JPEGs.
+piece2_queue: /piece2-queue
+
+# ---------------------------------------------------------------------------
+# File extensions (case-insensitive matching)
+# ---------------------------------------------------------------------------
+raw_extensions:
+  - ARW
+  - NEF
+
+jpeg_extensions:
+  - JPG
+  - JPEG
+
+# ---------------------------------------------------------------------------
+# Behaviour
+# ---------------------------------------------------------------------------
+
+# dry_run: true  — scan and report only, no files are moved or copied.
+# dry_run: false — execute the routing operations.
+# Always start with true and review the manifest before committing.
+dry_run: true
+
+# Number of parallel worker threads for copy operations.
+# Increase for faster bulk migrations on fast storage.
+workers: 4

@@ -1,0 +1,50 @@
+# ---------------------------------------------------------------------------
+# photo-router — docker-compose
+#
+# Usage:
+#   docker compose up -d
+#   docker compose down
+# ---------------------------------------------------------------------------
+
+services:
+  photo-router:
+    image: photo-router:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: photo-router
+    restart: unless-stopped
+
+    ports:
+      - "8585:8000"
+
+    environment:
+      PHOTO_ROUTER_CONFIG: /config/config.yaml
+
+    volumes:
+      - type: bind
+        source: /opt/photo-router
+        target: /config
+        read_only: true
+
+      - type: bind
+        source: /opt/external
+        target: /photos
+
+      - type: bind
+        source: /opt/raw-photos
+        target: /raw-archive
+
+      - type: bind
+        source: /opt/raw-queue
+        target: /piece2-queue
+
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 512M
+
+networks:
+  default:
+    name: photo-router-net
